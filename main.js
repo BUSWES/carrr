@@ -161,8 +161,13 @@ $(function () {
             );
         });
 
+        console.log(`Previous state: ${previousState}, Current state: ${currentState}`);
+
         if (previousState === "red" && currentState === "green") {
-            alertSound.play();
+            console.log("Playing sound!");
+            alertSound.play().catch(function (error) {
+                console.log("Error playing sound: ", error);
+            });
         }
 
         previousState = currentState;
@@ -199,4 +204,11 @@ $(function () {
                 requestAnimationFrame(detectFrame);
             });
     };
+
+    // Ensure audio can play on mobile devices
+    document.body.addEventListener('click', function() {
+        alertSound.play().catch(function (error) {
+            console.log("Audio play prevented: ", error);
+        });
+    }, { once: true });
 });
